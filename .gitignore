@@ -1,0 +1,8 @@
+node_modules/
+server/node_modules/
+.dist/
+dist/
+.DS_Store
+desktop.ini
+.env
+.env.*
