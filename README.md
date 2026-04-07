@@ -1,4 +1,4 @@
-# Veloura Atelier
+# Shopping Coplex
 
 Premium fashion e-commerce storefront with:
 
