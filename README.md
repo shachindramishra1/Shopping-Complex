@@ -23,8 +23,3 @@ cd server
 npm install
 npm run dev
 ```
-
-## Demo credentials
-
-- User: `demo@veloura.com` / `demo123`
-- Admin: `admin@veloura.com` / `admin123`
