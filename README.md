@@ -8,6 +8,7 @@ Premium fashion e-commerce storefront with:
 - shopping cart with coupon support and customization preview
 - hidden admin login with product, order, user, coupon, and analytics panels
 - Express backend scaffold ready for MongoDB integration
+- done
 
 ## Frontend
 
