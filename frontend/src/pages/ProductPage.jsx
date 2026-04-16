@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CustomizeStudio } from "../components/CustomizeStudio";
 import { ProductCard } from "../components/ProductCard";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
 
 export function ProductPage() {
   const { id } = useParams();
@@ -43,8 +44,8 @@ export function ProductPage() {
           <p className="eyebrow">{product.category}</p>
           <h1>{product.title}</h1>
           <div className="product-price">
-            <strong>${product.price}</strong>
-            <span>${product.oldPrice}</span>
+            <strong>{formatPrice(product.price)}</strong>
+            <span>{formatPrice(product.oldPrice)}</span>
           </div>
           <div className="rating-row">
             <Star size={16} fill="currentColor" />

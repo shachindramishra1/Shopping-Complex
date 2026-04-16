@@ -2,6 +2,8 @@ import { Heart, Menu, Search, ShoppingBag, User2 } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
+import smLogo from "../assets/sm-logo.jpeg";
 
 const navItems = [
   { label: "Home", to: "/" },
@@ -18,14 +20,15 @@ export function Layout({ children }) {
   return (
     <div className="site-shell">
       <header className="topbar">
-        <div className="topbar__notice">Luxury Custom Fashion. Free shipping on orders above $180.</div>
+        <div className="topbar__notice">Luxury Custom Fashion. Free shipping on orders above {formatPrice(180)}.</div>
       </header>
       <nav className="navbar">
         <button className="icon-btn mobile-only" onClick={() => setOpen((value) => !value)} aria-label="Toggle menu">
           <Menu size={20} />
         </button>
         <Link to="/" className="brand">
-          Veloura Atelier
+          <img className="brand__mark" src={smLogo} alt="SM" />
+          <span>Signature</span>
         </Link>
         <div className={`nav-links ${open ? "nav-links--open" : ""}`}>
           {navItems.map((item) => (
@@ -55,7 +58,10 @@ export function Layout({ children }) {
       <main>{children}</main>
       <footer className="footer">
         <div>
-          <p className="footer__brand">Veloura Atelier</p>
+          <p className="footer__brand">
+            <img className="brand__mark" src={smLogo} alt="SM" />
+            <span>Signature</span>
+          </p>
           <p>Luxury essentials, custom drops, and runway-inspired pieces in hot pink detail.</p>
         </div>
         <div>

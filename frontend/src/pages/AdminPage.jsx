@@ -2,6 +2,7 @@ import { BarChart3, LockKeyhole, PackageSearch, Percent, ShieldUser, Users } fro
 import { useState } from "react";
 import { offers } from "../data/mockData";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
 
 export function AdminPage() {
   const { adminLogin, adminLogout, isAdmin, products, orders, users, analytics } = useStore();
@@ -40,7 +41,7 @@ export function AdminPage() {
             Enter Admin
           </button>
           {error ? <p className="error-text">{error}</p> : null}
-          <p className="muted">Demo admin: `admin@veloura.com` / `admin123`</p>
+          <p className="muted">Demo admin: `mishrasachinadr@gmail.com` / `admin123`</p>
         </form>
       </div>
     );
@@ -51,7 +52,7 @@ export function AdminPage() {
       <section className="dashboard-hero">
         <div>
           <p className="eyebrow">Admin Panel</p>
-          <h1>Veloura Commerce Control</h1>
+          <h1>SM Signature Commerce Control</h1>
           <p>Hidden from normal user navigation and designed for premium brand operations.</p>
         </div>
         <button className="btn btn--ghost" onClick={adminLogout}>
@@ -63,7 +64,7 @@ export function AdminPage() {
         <article className="metric-card">
           <BarChart3 size={18} />
           <span>Revenue</span>
-          <strong>${analytics.revenue.toFixed(2)}</strong>
+          <strong>{formatPrice(analytics.revenue)}</strong>
         </article>
         <article className="metric-card">
           <PackageSearch size={18} />
@@ -78,7 +79,7 @@ export function AdminPage() {
         <article className="metric-card">
           <ShieldUser size={18} />
           <span>Average Order</span>
-          <strong>${analytics.avgOrderValue.toFixed(2)}</strong>
+          <strong>{formatPrice(analytics.avgOrderValue)}</strong>
         </article>
       </section>
 
@@ -92,7 +93,7 @@ export function AdminPage() {
             <div key={product.id} className="dashboard-list-item">
               <strong>{product.title}</strong>
               <span>{product.collection}</span>
-              <span>${product.price}</span>
+              <span>{formatPrice(product.price)}</span>
             </div>
           ))}
         </article>
@@ -107,7 +108,7 @@ export function AdminPage() {
               <div key={order.id} className="dashboard-list-item">
                 <strong>{order.id}</strong>
                 <span>{order.items.length} items</span>
-                <span>${order.total.toFixed(2)}</span>
+                <span>{formatPrice(order.total)}</span>
                 <span>{order.status}</span>
               </div>
             ))

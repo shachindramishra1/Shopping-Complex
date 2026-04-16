@@ -1,9 +1,7 @@
 import { Download, RotateCw, Sticker, Type, Upload } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useStore } from "../context/StoreContext";
-
-const stickerChoices = ["STAR", "V", "ROSE", "WAVE"];
-
+const stickerChoices = ["STAR", "SM", "ROSE", "WAVE"];
 export function CustomizeStudio({ product, onUseDesign }) {
   const { saveDesign } = useStore();
   const [productType, setProductType] = useState(product.id.includes("hoodie") ? "hoodie" : "tee");
@@ -24,7 +22,7 @@ export function CustomizeStudio({ product, onUseDesign }) {
   const addText = () =>
     setElements((prev) => [
       ...prev,
-      { id: `el-${Date.now()}`, type: "text", content: textDraft || "Veloura", x: 32, y: 46, size: 34, rotation: 0 },
+      { id: `el-${Date.now()}`, type: "text", content: textDraft || "SM Signature", x: 32, y: 46, size: 34, rotation: 0 },
     ]);
 
   const addUpload = (event) => {

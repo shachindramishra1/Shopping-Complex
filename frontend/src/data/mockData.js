@@ -1,3 +1,5 @@
+import shachindraImage from "../assets/shachindra.jpeg";
+
 export const promoCodes = {
   PINK10: 0.1,
   LUXE15: 0.15,
@@ -30,13 +32,12 @@ export const reviews = [
 
 export const collections = [
   {
-    title: "Women",
+    title: "Men",
     description: "Sharp tailoring, fluid silhouettes, and luxe statement essentials.",
-    image:
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80",
+    image: shachindraImage,
   },
   {
-    title: "Men",
+    title: "Women",
     description: "Modern layering pieces crafted for elevated everyday style.",
     image:
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80",

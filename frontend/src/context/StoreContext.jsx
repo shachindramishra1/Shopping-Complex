@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { products, promoCodes } from "../data/mockData";
 
 const StoreContext = createContext(null);
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
 
 const storageKeys = {
   cart: "veloura-cart",
@@ -30,7 +31,7 @@ export function StoreProvider({ children }) {
   const [savedDesigns, setSavedDesigns] = useState(() => readStorage(storageKeys.designs, []));
   const [users, setUsers] = useState(() =>
     readStorage(storageKeys.users, [
-      { name: "Demo User", email: "demo@veloura.com", password: "demo123", role: "user" },
+      { name: "Demo User", email: "demo@smsignature.com", mobile: "9999999999", role: "user" },
     ])
   );
   const [isAdmin, setIsAdmin] = useState(() => readStorage(storageKeys.admin, false));
@@ -42,6 +43,30 @@ export function StoreProvider({ children }) {
   useEffect(() => window.localStorage.setItem(storageKeys.designs, JSON.stringify(savedDesigns)), [savedDesigns]);
   useEffect(() => window.localStorage.setItem(storageKeys.users, JSON.stringify(users)), [users]);
   useEffect(() => window.localStorage.setItem(storageKeys.admin, JSON.stringify(isAdmin)), [isAdmin]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadUsers() {
+      try {
+        const response = await fetch(`${apiBaseUrl}/users`);
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (!cancelled) {
+          setUsers(data);
+        }
+      } catch {
+        // Keep the local fallback list when the API is unavailable.
+      }
+    }
+
+    loadUsers();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const addToCart = ({ product, size, color, quantity = 1, customization = null }) => {
     const cartId = `${product.id}-${size}-${color}-${customization?.id ?? "standard"}`;
@@ -80,29 +105,59 @@ export function StoreProvider({ children }) {
   const toggleWishlist = (productId) =>
     setWishlist((prev) => (prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]));
 
-  const signup = ({ name, email, password }) => {
-    if (users.some((user) => user.email === email)) {
-      return { ok: false, message: "Email already exists." };
+  const signup = async ({ name, email, mobile, password }) => {
+    try {
+      const response = await fetch(`${apiBaseUrl}/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, mobile, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { ok: false, message: data.message || "Unable to create account." };
+      }
+
+      setCurrentUser(data.user);
+      setUsers((prev) => [data.user, ...prev.filter((user) => user.id !== data.user.id)]);
+      return { ok: true };
+    } catch {
+      return { ok: false, message: "API is unavailable. Start the backend server and try again." };
     }
-    const user = { name, email, password, role: "user" };
-    setUsers((prev) => [...prev, user]);
-    setCurrentUser(user);
-    return { ok: true };
   };
 
-  const login = ({ email, password }) => {
-    const user = users.find((entry) => entry.email === email && entry.password === password);
-    if (!user) {
-      return { ok: false, message: "Invalid credentials." };
+  const login = async ({ identifier, password }) => {
+    try {
+      const response = await fetch(`${apiBaseUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ identifier, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { ok: false, message: data.message || "Invalid credentials." };
+      }
+
+      setCurrentUser(data.user);
+      setUsers((prev) => {
+        const nextUsers = prev.filter((user) => user.id !== data.user.id);
+        return [data.user, ...nextUsers];
+      });
+      return { ok: true };
+    } catch {
+      return { ok: false, message: "API is unavailable. Start the backend server and try again." };
     }
-    setCurrentUser(user);
-    return { ok: true };
   };
 
   const logout = () => setCurrentUser(null);
 
   const adminLogin = ({ email, password }) => {
-    if (email === "admin@veloura.com" && password === "admin123") {
+    if (email === "admin@smsignature.com" && password === "admin123") {
       setIsAdmin(true);
       return { ok: true };
     }

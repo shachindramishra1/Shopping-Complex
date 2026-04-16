@@ -1,6 +1,7 @@
 import { Heart, LogOut, Package2, Palette, UserRound } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
 
 export function AccountPage() {
   const { currentUser, logout, orders, wishlist, products, savedDesigns } = useStore();
@@ -16,6 +17,7 @@ export function AccountPage() {
           <p className="eyebrow">Profile Dashboard</p>
           <h1>{currentUser.name}</h1>
           <p>{currentUser.email}</p>
+          <p>{currentUser.mobile}</p>
         </div>
         <button className="btn btn--ghost" onClick={logout}>
           <LogOut size={16} />
@@ -34,7 +36,7 @@ export function AccountPage() {
               <div key={order.id} className="dashboard-list-item">
                 <strong>{order.id}</strong>
                 <span>{new Date(order.createdAt).toLocaleDateString()}</span>
-                <span>${order.total.toFixed(2)}</span>
+                <span>{formatPrice(order.total)}</span>
                 <span>{order.status}</span>
               </div>
             ))
@@ -54,7 +56,7 @@ export function AccountPage() {
               return (
                 <Link key={productId} to={`/product/${productId}`} className="dashboard-list-item">
                   <strong>{product?.title}</strong>
-                  <span>${product?.price}</span>
+                  <span>{formatPrice(product?.price ?? 0)}</span>
                 </Link>
               );
             })

@@ -1,6 +1,7 @@
 import { Heart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
 
 export function ProductCard({ product }) {
   const { toggleWishlist, wishlist } = useStore();
@@ -19,7 +20,7 @@ export function ProductCard({ product }) {
         <p className="eyebrow">{product.collection}</p>
         <div className="product-card__topline">
           <h3>{product.title}</h3>
-          <span>${product.price}</span>
+          <span>{formatPrice(product.price)}</span>
         </div>
         <p className="muted">{product.description}</p>
         <div className="rating-row">

@@ -3,6 +3,7 @@ import { collections, offers, reviews } from "../data/mockData";
 import { ProductCard } from "../components/ProductCard";
 import { useStore } from "../context/StoreContext";
 import { Link } from "react-router-dom";
+import shachindraImage from "../assets/shachindra.jpeg";
 
 export function HomePage() {
   const { products } = useStore();
@@ -44,7 +45,7 @@ export function HomePage() {
         <div className="hero__visual">
           <div className="hero-card hero-card--floating">
             <img
-              src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
+              src={shachindraImage}
               alt="Premium fashion campaign"
             />
           </div>

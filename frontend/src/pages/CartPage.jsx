@@ -2,6 +2,7 @@ import { Minus, Plus, Tag, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { promoCodes } from "../data/mockData";
 import { useStore } from "../context/StoreContext";
+import { formatPrice } from "../utils/currency";
 
 export function CartPage() {
   const { cart, updateCartQuantity, removeFromCart, placeOrder } = useStore();
@@ -43,7 +44,7 @@ export function CartPage() {
                           {item.size} / {item.color}
                         </p>
                       </div>
-                      <strong>${item.price}</strong>
+                      <strong>{formatPrice(item.price)}</strong>
                     </div>
                     {item.customization ? (
                       <div className="cart-item__custom">
@@ -98,15 +99,15 @@ export function CartPage() {
             </label>
             <div className="summary-row">
               <span>Subtotal</span>
-              <strong>${subtotal.toFixed(2)}</strong>
+              <strong>{formatPrice(subtotal)}</strong>
             </div>
             <div className="summary-row">
               <span>Discount</span>
-              <strong>- ${discount.toFixed(2)}</strong>
+              <strong>- {formatPrice(discount)}</strong>
             </div>
             <div className="summary-row summary-row--total">
               <span>Total</span>
-              <strong>${total.toFixed(2)}</strong>
+              <strong>{formatPrice(total)}</strong>
             </div>
             <button className="btn btn--primary" onClick={checkout} disabled={!cart.length}>
               Checkout

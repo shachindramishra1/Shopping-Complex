@@ -1,7 +1,9 @@
 node_modules/
-server/node_modules/
-.dist/
+.vite/
+.vite-temp/
 dist/
+.dist/
+*.log
 .DS_Store
 desktop.ini
 .env
